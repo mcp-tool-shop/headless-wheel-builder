@@ -73,3 +73,31 @@ class ConfigError(HWBError):
     """Configuration error."""
 
     pass
+
+
+# =============================================================================
+# GitHub Errors
+# =============================================================================
+
+
+class GitHubError(HWBError):
+    """GitHub API or operation error."""
+
+    def __init__(self, message: str, status_code: int | None = None):
+        super().__init__(message)
+        self.status_code = status_code
+
+
+class GitHubAuthError(GitHubError):
+    """GitHub authentication failed."""
+
+    def __init__(self, message: str = "GitHub authentication failed"):
+        super().__init__(message, status_code=401)
+
+
+class GitHubRateLimitError(GitHubError):
+    """GitHub API rate limit exceeded."""
+
+    def __init__(self, message: str, reset_timestamp: int = 0):
+        super().__init__(message, status_code=403)
+        self.reset_timestamp = reset_timestamp

@@ -4,7 +4,7 @@
 [![Python versions](https://img.shields.io/pypi/pyversions/headless-wheel-builder.svg)](https://pypi.org/project/headless-wheel-builder/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A universal, headless Python wheel builder supporting local paths, git repos, and CI/CD pipelines with flexible isolation (venv/Docker), multi-registry publishing, and automated versioning.
+A universal, headless Python wheel builder with integrated GitHub operations for CI/CD pipelines. Build wheels, create releases, manage PRs and issues — all without touching the web UI.
 
 ## Features
 
@@ -14,6 +14,7 @@ A universal, headless Python wheel builder supporting local paths, git repos, an
 - **Publishing**: PyPI Trusted Publishers (OIDC), DevPi, Artifactory, S3
 - **Versioning**: Auto-bump from Conventional Commits, changelog generation
 - **Windows-first**: Full Windows support including RTX 5080 compatibility
+- **Headless GitHub**: Releases, PRs, issues, workflows — fully scriptable
 
 ## Installation
 
@@ -42,6 +43,51 @@ hwb build --python 3.11
 
 # Build wheel and sdist
 hwb build --sdist
+```
+
+## Headless GitHub Operations
+
+Manage GitHub releases, PRs, and issues without leaving your terminal:
+
+```bash
+# Create a release with assets
+hwb github release v1.0.0 --repo owner/repo --files dist/*.whl
+
+# Trigger a workflow
+hwb github workflow run build.yml --repo owner/repo --ref main
+
+# Create a pull request
+hwb github pr create --repo owner/repo --head feature --base main \
+    --title "Add new feature" --body "Description here"
+
+# Create an issue
+hwb github issue create --repo owner/repo --title "Bug report" --body "Details..."
+```
+
+### Python API
+
+```python
+import asyncio
+from headless_wheel_builder.github import GitHubClient, GitHubConfig
+
+async def main():
+    config = GitHubConfig(token="ghp_...")  # or use GITHUB_TOKEN env var
+    async with GitHubClient(config) as client:
+        # Create a release
+        release = await client.create_release(
+            "owner/repo",
+            tag_name="v1.0.0",
+            name="Release 1.0.0",
+            body="What's new...",
+        )
+
+        # Upload assets
+        await client.upload_assets(
+            release.upload_url,
+            ["dist/package-1.0.0-py3-none-any.whl"],
+        )
+
+asyncio.run(main())
 ```
 
 ## Usage

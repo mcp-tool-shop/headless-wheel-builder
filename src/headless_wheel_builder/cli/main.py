@@ -16,6 +16,7 @@ from rich.table import Table
 from headless_wheel_builder import __version__
 from headless_wheel_builder.core.builder import BuildConfig, BuildEngine, BuildResult
 from headless_wheel_builder.exceptions import BuildError, HWBError
+from headless_wheel_builder.github.cli import github as github_group
 
 if TYPE_CHECKING:
     pass
@@ -827,6 +828,10 @@ def version_next(
 def main() -> None:
     """Main entry point."""
     cli()
+
+
+# Register GitHub subcommand group
+cli.add_command(github_group)
 
 
 if __name__ == "__main__":
