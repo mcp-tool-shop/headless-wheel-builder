@@ -14,9 +14,19 @@ from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.table import Table
 
 from headless_wheel_builder import __version__
+from headless_wheel_builder.actions.cli import actions as actions_group
+from headless_wheel_builder.cache.cli import cache as cache_group
+from headless_wheel_builder.changelog.cli import changelog as changelog_group
 from headless_wheel_builder.core.builder import BuildConfig, BuildEngine, BuildResult
+from headless_wheel_builder.depgraph.cli import deps as deps_group
 from headless_wheel_builder.exceptions import BuildError, HWBError
 from headless_wheel_builder.github.cli import github as github_group
+from headless_wheel_builder.metrics.cli import metrics as metrics_group
+from headless_wheel_builder.multirepo.cli import multirepo as multirepo_group
+from headless_wheel_builder.notify.cli import notify as notify_group
+from headless_wheel_builder.pipeline.cli import pipeline as pipeline_group
+from headless_wheel_builder.release.cli import release as release_group
+from headless_wheel_builder.security.cli import security as security_group
 
 if TYPE_CHECKING:
     pass
@@ -830,8 +840,18 @@ def main() -> None:
     cli()
 
 
-# Register GitHub subcommand group
+# Register subcommand groups
+cli.add_command(actions_group)
+cli.add_command(cache_group)
+cli.add_command(changelog_group)
+cli.add_command(deps_group)
 cli.add_command(github_group)
+cli.add_command(metrics_group)
+cli.add_command(multirepo_group)
+cli.add_command(notify_group)
+cli.add_command(pipeline_group)
+cli.add_command(release_group)
+cli.add_command(security_group)
 
 
 if __name__ == "__main__":

@@ -101,3 +101,35 @@ class GitHubRateLimitError(GitHubError):
     def __init__(self, message: str, reset_timestamp: int = 0):
         super().__init__(message, status_code=403)
         self.reset_timestamp = reset_timestamp
+
+
+# =============================================================================
+# Pipeline Errors
+# =============================================================================
+
+
+class PipelineError(HWBError):
+    """Pipeline execution error."""
+
+    def __init__(self, message: str, stage: str | None = None):
+        super().__init__(message)
+        self.stage = stage
+
+
+class StageError(PipelineError):
+    """Error in a specific pipeline stage."""
+
+    pass
+
+
+# =============================================================================
+# Notification Errors
+# =============================================================================
+
+
+class NotificationError(HWBError):
+    """Notification delivery error."""
+
+    def __init__(self, message: str, provider: str | None = None):
+        super().__init__(message)
+        self.provider = provider
