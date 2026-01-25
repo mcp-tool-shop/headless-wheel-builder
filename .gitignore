@@ -104,3 +104,6 @@ Thumbs.db
 
 # Deliverables archive
 headless-wheel-builder-main-deliverables/
+
+# uv lockfile
+uv.lock
