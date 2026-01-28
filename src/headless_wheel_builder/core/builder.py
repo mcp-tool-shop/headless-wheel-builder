@@ -17,6 +17,7 @@ from headless_wheel_builder.core.analyzer import ProjectAnalyzer, ProjectMetadat
 from headless_wheel_builder.core.source import ResolvedSource, SourceResolver, SourceSpec
 from headless_wheel_builder.exceptions import BuildError
 from headless_wheel_builder.isolation.venv import VenvIsolation
+from headless_wheel_builder.security_validation import validate_wheel_path
 
 
 def _is_dangerous_cleanup_path(path: Path) -> bool:
